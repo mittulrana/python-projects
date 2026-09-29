@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Posts</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .nav-buttons a {
+        text-decoration: none;
+        color: white;
+        background-color: #444;
+        padding: 9px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .nav-buttons a:hover {
+        background-color: #666;
+    }
+        .posts-container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .post {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .author {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .date {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .title {
+            font-size: 24px;
+            margin: 15px 0 10px;
+        }
+
+        .content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .post-footer {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 12px;
+        }
+
+        .like-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="nav-buttons">
+
+    <a href="{{ url_for('add_post') }}" method="post">
+        ➕ Add Post
+    </a>
+
+    <a href="{{ url_for('logout') }}">
+        🚪 Logout
+    </a>
+
+</div>
+<div class="posts-container">
+
+    {% for post in posts %}
+    
+    <div class="post">
+
+        
+
+        <div class="post-header">
+            <span class="author">
+                {{ post.username }}
+            </span>
+
+            <span class="date">
+                {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}
+            </span>
+        </div>
+
+        <h2 class="title">
+            {{ post.title }}
+        </h2>
+
+        <p class="content">
+            {{ post.content }}
+        </p>
+
+        <div class="post-footer">
+
+    <!-- LIKE -->
+    <form action="{{ url_for('like_post', post_id=post.post_id) }}" method="POST">
+
+    <button type="submit" class="like-button">
+        ❤️ Like
+        {{ likes | selectattr("post_id", "equalto", post.post_id) | list | length }}
+    </button>
+
+</form>
+
+
+    <!-- COMMENT -->
+    <a href="{{ url_for('show_comments', post_id=post.post_id) }}">
+        <button type="button">
+             Comment {{ comments | selectattr("post_id", "equalto", post.post_id) | list | length }}
+        </button>
+    </a>
+
+</div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<a href="{{url_for('show_posts')}}">
+    <button>Back to Posts</button>  
+</a>
+<h1>Create Post</h1>
+
+<form  action="{{url_for('add_post')}}" method="POST">
+    <textarea name="title" placeholder="Write your post title"></textarea>
+    <textarea name="content" placeholder="Write your post"></textarea>
+
+    <button type="submit">Post</button>
+</form>

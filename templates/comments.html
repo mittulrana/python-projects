@@ -1,0 +1,32 @@
+<a href="{{url_for('show_posts')}}">
+    <button>Back to Posts</button>  
+</a>
+<h1>{{ post["title"] }}</h1>
+
+<p>{{ post["content"] }}</p>
+
+<hr>
+
+<h2>Comments</h2>
+
+<form action="{{ url_for('add_comment', post_id=post['post_id']) }}"
+      method="POST">
+
+    <input type="text" name="comment" placeholder="Write a comment" required>
+
+    <button type="submit">Comment</button>
+
+</form>
+
+<hr>
+
+{% for comment in comments %}
+    <p><small>{{ comment["user_id"] }}</small></p>
+    <p>{{ comment["comment"] }}</p>
+    <small>{{ comment["created_at"] }}</small>
+
+{% else %}
+
+    <p>No comments yet.</p>
+
+{% endfor %}

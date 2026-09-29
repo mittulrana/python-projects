@@ -1,0 +1,42 @@
+<html>
+<body bgcolor="lightblue">
+<!--#this will take the user where new post can be created-->
+<a href="{{url_for('add_post')}}">
+    <button>Create Post</button>
+</a>
+<a href="{{url_for('logout')}}">
+    <button>Logout</button>
+    </a>
+
+
+
+<!--#this will take the user where all posts can be seen-->
+<h1>Posts</h1>
+<hr style="border: none; border-top: 3px dotted #333; margin-top: 0px;">
+
+
+<!--jinja template to loop through all the posts and display them-->
+{% for post in posts %}
+    <div>
+        <h3>{{ post["user"] }}</h3>
+        <p><strong>{{ post["title"] }}</strong></p>
+        <p><small>{{ post["post_id"] }}</small></p>
+        <p>{{ post["content"] }}</p>
+        
+        <p><small>{{ post["timestamp"] }}</small></p>
+        <a href="{{url_for('show_comments', post_id=post['post_id'])}}">
+    <button>View Comments</button>
+</a>
+        <form action="{{ url_for('like_post', post_id=post['post_id']) }}" method="POST">
+    <button type="submit">Like</button>
+</form>
+        <p>Likes: {{ post.get("likes", 0) }}</p>
+    </div>
+    <hr class="dotted">
+{% endfor %}
+
+
+<br>
+    
+</body>
+</html>
